@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "895824056267",
+    "project_id": "savvyshopper-15a31",
+    "storage_bucket": "savvyshopper-15a31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895824056267:android:91aeadb968aa69c40f304e",
+        "android_client_info": {
+          "package_name": "com.example.savvyshopperonlineapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895824056267-33hus3fu89rcoo0j5s3g7urhlhugh05n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.savvyshopperonlineapp",
+            "certificate_hash": "56a3b98619103a7aa5413689551ad7319dc3a3d0"
+          }
+        },
+        {
+          "client_id": "895824056267-3df7eah46qk6eiek6jrgjdajr19d97b0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR1zodel8-Qbid02NnoDz_auHjAy41_oU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895824056267-3df7eah46qk6eiek6jrgjdajr19d97b0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
