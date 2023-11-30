@@ -1,8 +1,9 @@
-package com.example.savvyshopperonlineapp.database.room.ui.itemdetail
+package com.example.savvyshopperonlineapp.view
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.example.savvyshopperonlineapp.view.DetailScreen
 
 //import android.os.Bundle
 //import androidx.activity.compose.setContent

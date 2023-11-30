@@ -1,8 +1,9 @@
-package com.example.savvyshopperonlineapp.database.room.ui.options
+package com.example.savvyshopperonlineapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.savvyshopperonlineapp.database.room.DataStoreManager
 import kotlinx.coroutines.launch
 
 class OptionsViewModel (

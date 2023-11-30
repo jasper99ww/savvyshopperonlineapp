@@ -1,4 +1,4 @@
-package com.example.savvyshopperonlineapp.database.room.ui.itemdetail
+package com.example.savvyshopperonlineapp.viewmodel
 
 import android.content.Context
 import android.content.Intent
@@ -103,13 +103,13 @@ constructor(
     }
 
         private fun sendProductAddedBroadcast(context: Context, productId: Int, productName: String) {
-            val intent = Intent("com.example.savvyshopper.PRODUCT_ADDED").apply {
+            val intent = Intent("com.example.savvyshopperonlineapp.PRODUCT_ADDED").apply {
                 putExtra("productId", productId)
                 putExtra("productName", productName)
                 addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
             }
 //            context.sendBroadcast(intent, )
-            context.sendBroadcast(intent, "com.example.savvyshopper.PRODUCT_ADDITION_PERMISSION")
+            context.sendBroadcast(intent, "com.example.savvyshopperonlineapp.PRODUCT_ADDITION_PERMISSION")
         }
 
     fun updateShoppingItem(id:Int){

@@ -1,4 +1,4 @@
-package com.example.savvyshopperonlineapp.database.room.ui.options
+package com.example.savvyshopperonlineapp.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.savvyshopperonlineapp.database.room.DataStoreManager
 import com.example.savvyshopperonlineapp.ui.theme.Shapes
+import com.example.savvyshopperonlineapp.viewmodel.OptionsViewModel
+import com.example.savvyshopperonlineapp.viewmodel.OptionsViewModelFactory
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

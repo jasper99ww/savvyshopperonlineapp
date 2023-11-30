@@ -1,4 +1,4 @@
-package com.example.savvyshopperonlineapp.database.room.ui
+package com.example.savvyshopperonlineapp.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

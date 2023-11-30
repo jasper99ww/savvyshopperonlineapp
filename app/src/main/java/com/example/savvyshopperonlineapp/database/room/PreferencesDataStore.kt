@@ -1,4 +1,4 @@
-package com.example.savvyshopperonlineapp.database.room.ui.options
+package com.example.savvyshopperonlineapp.database.room
 
 
 import android.content.Context

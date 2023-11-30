@@ -1,8 +1,7 @@
-package com.example.savvyshopperonlineapp.database.room.ui.itemdetail
+package com.example.savvyshopperonlineapp.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,20 +22,17 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.savvyshopperonlineapp.Category
 import com.example.savvyshopperonlineapp.Utils
-import com.example.savvyshopperonlineapp.database.room.ui.CategoryItem
-import com.example.savvyshopperonlineapp.database.room.ui.itemdetail.DetailState
-import com.example.savvyshopperonlineapp.database.room.ui.itemdetail.DetailViewModel
-import com.example.savvyshopperonlineapp.database.room.ui.itemdetail.DetailViewModelFactory
+import com.example.savvyshopperonlineapp.viewmodel.DetailState
+import com.example.savvyshopperonlineapp.viewmodel.DetailViewModel
+import com.example.savvyshopperonlineapp.viewmodel.DetailViewModelFactory
 import com.example.savvyshopperonlineapp.ui.theme.Shapes
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

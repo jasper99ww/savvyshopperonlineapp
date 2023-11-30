@@ -1,12 +1,9 @@
-package com.example.savvyshopperonlineapp.database.room.ui
+package com.example.savvyshopperonlineapp.view
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Context.RECEIVER_NOT_EXPORTED
 import android.content.Intent
 import android.content.IntentFilter
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -20,7 +17,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -58,7 +54,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,12 +65,9 @@ import com.example.savvyshopperonlineapp.ProductAdditionReceiver
 import com.example.savvyshopperonlineapp.Utils
 import com.example.savvyshopperonlineapp.database.room.Item
 import com.example.savvyshopperonlineapp.database.room.ItemsWithList
-import com.example.savvyshopperonlineapp.database.room.ui.itemdetail.DetailActivity
-import com.example.savvyshopperonlineapp.database.room.ui.options.DataStoreManager
+import com.example.savvyshopperonlineapp.database.room.DataStoreManager
 import com.example.savvyshopperonlineapp.ui.theme.Shapes
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.savvyshopperonlineapp.viewmodel.HomeViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
