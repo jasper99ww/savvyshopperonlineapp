@@ -62,15 +62,19 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
 
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
 
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 
     implementation("com.google.dagger:hilt-android:2.44")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
+//    implementation("com.google.android.gms:play-services-auth:20.7.0")
     kapt ("com.google.dagger:hilt-compiler:2.48.1")
     kapt ("androidx.hilt:hilt-compiler:1.0.0")
     implementation ("com.google.dagger:hilt-android:2.48.1")

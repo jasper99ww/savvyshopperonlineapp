@@ -6,7 +6,7 @@
     <uses-permission android:name="com.example.savvyshopper.PRODUCT_ADDITION_PERMISSION"/>
 
     <application
-        android:name=".ApplicationFirebaseAuth"
+        android:name=".SavvyShopperHiltApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,14 +17,9 @@
         android:theme="@style/Theme.Savvyshopperonlineapp"
         tools:targetApi="31">
         <activity
-            android:name=".OptionsActivity"
+            android:name=".view.options.OptionsActivity"
             android:exported="false"
             android:label="@string/title_activity_options"
-            android:theme="@style/Theme.Savvyshopperonlineapp"/>
-        <activity
-            android:name=".view.DetailActivity"
-            android:exported="false"
-            android:label="DetailActivity"
             android:theme="@style/Theme.Savvyshopperonlineapp"/>
         <activity
             android:name=".MainActivity"
