@@ -1,14 +1,18 @@
 package com.example.savvyshopperonlineapp.view.home
 
+import android.annotation.SuppressLint
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.savvyshopperonlineapp.Category
+import com.example.savvyshopperonlineapp.FAVORITE_SHOPS_LIST_SCREEN
 import com.example.savvyshopperonlineapp.ITEM_DEFAULT_ID
 import com.example.savvyshopperonlineapp.ITEM_ID
 import com.example.savvyshopperonlineapp.ITEM_SCREEN
 import com.example.savvyshopperonlineapp.LOAD_LISTS_SCREEN
+import com.example.savvyshopperonlineapp.MAP_SCREEN
 import com.example.savvyshopperonlineapp.OPTIONS_SCREEN
 import com.example.savvyshopperonlineapp.SHARE_LIST_SCREEN
 import com.example.savvyshopperonlineapp.SPLASH_SCREEN
@@ -17,7 +21,10 @@ import com.example.savvyshopperonlineapp.data.Item
 import com.example.savvyshopperonlineapp.data.ItemsWithList
 import com.example.savvyshopperonlineapp.data.ShoppingList
 import com.example.savvyshopperonlineapp.data.StorageService
+import com.example.savvyshopperonlineapp.map.LocationService
+import com.example.savvyshopperonlineapp.map.MapState
 import com.example.savvyshopperonlineapp.view.SavvyShopperAppViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,13 +35,20 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val accountService: AccountService,
-    private val storageService: StorageService
+    private val storageService: StorageService,
+    private val locationService: LocationService
 ) : SavvyShopperAppViewModel() {
 
     private var currentCategory: Category? = null
 
     var state by mutableStateOf(HomeState())
         private set
+
+    val locationState: MutableState<MapState> = mutableStateOf(
+        MapState(
+            lastKnownLocation = null,
+        )
+    )
 
     init {
         getItems()
@@ -46,6 +60,23 @@ class HomeViewModel @Inject constructor(
                 if (user == null) restartApp(SPLASH_SCREEN)
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getDeviceLocation(
+        fusedLocationProviderClient: FusedLocationProviderClient
+    ) {
+        println("sledzenie w home włączone")
+        locationService.getLastKnownLocation { location ->
+            println("uzyskana lokalizacja to $location")
+            location?.let {
+                locationState.value = locationState.value.copy(lastKnownLocation = it)
+            }
+        }
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+//         */
     }
 
     private fun getItems(){
@@ -69,6 +100,14 @@ class HomeViewModel @Inject constructor(
         currentCategory = category
         state = state.copy(category = category ?: Category())
         getItems()
+    }
+
+    fun onMapClick(openScreen: (String) -> Unit) {
+        openScreen("$MAP_SCREEN")
+    }
+
+    fun onFavoriteClick(openScreen: (String) -> Unit) {
+        openScreen("$FAVORITE_SHOPS_LIST_SCREEN")
     }
 
     fun onAddClick(openScreen: (String) -> Unit) {

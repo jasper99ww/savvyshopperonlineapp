@@ -1,9 +1,14 @@
 package com.example.savvyshopperonlineapp.view.home
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -31,8 +36,10 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.ripple.rememberRipple
@@ -50,6 +57,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +68,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -71,7 +80,9 @@ import com.example.savvyshopperonlineapp.Utils
 import com.example.savvyshopperonlineapp.data.Item
 import com.example.savvyshopperonlineapp.data.ItemsWithList
 import com.example.savvyshopperonlineapp.database.room.DataStoreManager
+import com.example.savvyshopperonlineapp.map.RequestLocationPermissions
 import com.example.savvyshopperonlineapp.ui.theme.Shapes
+import com.google.android.gms.location.LocationServices
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,8 +93,41 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ){
+
     val context = LocalContext.current
     val dataStoreManager: DataStoreManager = remember { DataStoreManager.getInstance(context) }
+
+    val showPermissionDialog = remember { mutableStateOf(false) }
+
+    RequestLocationPermissions(
+        onPermissionsGranted = {
+            println("PERMISSON GRANTED")
+            viewModel.getDeviceLocation(LocationServices.getFusedLocationProviderClient(context))
+        },
+        showPermissionDialog = showPermissionDialog
+    )
+
+    // Launcher dla uprawnień do powiadomień
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Uprawnienie do powiadomień przyznane
+        } else {
+            // Uprawnienie do powiadomień odmówione
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(
+                context,
+                POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Jeśli system to Android 13 lub nowszy i uprawnienie do powiadomień nie jest przyznane
+            notificationPermissionLauncher.launch(POST_NOTIFICATIONS)
+        }
+    }
 
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
     val homeState = viewModel.state
@@ -115,12 +159,20 @@ fun HomeScreen(
                             .wrapContentSize(Alignment.CenterStart)
                     ) {
                         Text(
-                            "Savvy Shopper",
-                            style = MaterialTheme.typography.headlineMedium
+                            "SavvyShopper",
+                            style = MaterialTheme.typography.headlineSmall
                         )
                     }
                 },
                 actions = {
+
+                    IconButton(onClick = { viewModel.onMapClick(openScreen) }) {
+                        Icon(Icons.Filled.Place, contentDescription = "Map")
+                    }
+
+                    IconButton(onClick = { viewModel.onFavoriteClick(openScreen) }) {
+                        Icon(Icons.Filled.Favorite, contentDescription = "favourite shops")
+                    }
 
                     IconButton(onClick = { viewModel.onLoadListsClick(openScreen) }) {
                         Icon(Icons.Filled.List, contentDescription = "Load Lists")
@@ -341,9 +393,6 @@ fun ShoppingItems(
             }
         }
     }
-
-
-
 }
 
 
