@@ -29,10 +29,7 @@ class FavoriteShopDetailViewModel @Inject constructor(
     fun loadShopSpot(shopId: Int) {
         viewModelScope.launch {
             val shopSpot = repository.getShopSpotById(shopId)
-            println("dla shopId zaladowano $shopSpot")
             _shopSpot.value = shopSpot
-            println("w viemodelu shop jest ${_shopSpot.value}")
-            println("Name of the shop is: ${_shopSpot.value?.name}")
         }
     }
 
@@ -51,25 +48,19 @@ class FavoriteShopDetailViewModel @Inject constructor(
 
     fun addFavoriteShop(name: String, description: String, radius: String, context: Context) {
 
-//        val pendingIntent = GeofenceUtils.createGeofencePendingIntent(context)
-
-        println("dodajemy to wszystko $name, $description, $radius")
         locationService.getLastKnownLocation { location ->
             location?.let {
-//                val shopSpot = ShopSpot(name, description, radius, it.latitude, it.longitude)
                 val shopSpot = ShopSpot(it.latitude, it.longitude, name, description, radius)
                 viewModelScope.launch {
                     repository.insertShopSpot(shopSpot)
-                    // Po dodaniu sklepu, tworzymy dla niego geofence
                     val geofencingHelper = GeofencingHelper(context)
                     val pendingIntent = GeofenceUtils.createGeofencePendingIntent(context, shopSpot)
-                    val radiusInMeters = radius.toFloatOrNull() ?: 0f // Konwersja radius na Float
+                    val radiusInMeters = radius.toFloatOrNull() ?: 0f
                     geofencingHelper.createGeofenceForShop(shopSpot, radiusInMeters, pendingIntent)
                 }
                 }
-                println("saved favorite shop $shopSpot")
             }
-        }
+    }
 
     fun updateFavoriteShop(shop: ShopSpot) {
         viewModelScope.launch {

@@ -12,24 +12,21 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
 
-        println("ZACZĘTO geofencebroadcastreceiver")
+    override fun onReceive(context: Context, intent: Intent) {
 
         val shopName = intent.getStringExtra("shopName")
         val dailyDeal = intent.getStringExtra("dailyDeal")
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
 
         if (geofencingEvent?.hasError() == true) {
-            // Obsługa błędu
             println("error has occured")
             return
         }
 
         val geofenceTransition = geofencingEvent?.geofenceTransition
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-            // Tworzenie notyfikacji
-            println("tworzymy notfikacje broacast")
+
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,9 +51,6 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 
             notificationManager.notify(0, notificationBuilder.build())
-        } else {
-            println("NIE DZIALA NOTYFIKACJA BROADCASt")
-            println("geofence trans is = $geofenceTransition")
         }
     }
 }

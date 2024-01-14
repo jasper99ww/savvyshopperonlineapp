@@ -11,7 +11,3 @@ data class MapState(
     ),
     val shopSpots: List<ShopSpot> = emptyList()
 )
-//data class MapState(
-//    val lastKnownLocation: Location?,
-//    val clusterItems: List<ZoneClusterItem>,
-//)

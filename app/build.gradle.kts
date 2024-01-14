@@ -6,6 +6,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -43,6 +44,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -57,6 +59,20 @@ android {
 val room_version = "2.6.0"
 
 dependencies {
+
+    // Dependency to include Maps SDK for Android
+    implementation("com.google.android.gms:play-services-maps:17.0.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation ("com.google.maps.android:maps-ktx:5.0.0")
+    implementation ("com.google.maps.android:maps-utils-ktx:5.0.0")
+
+    // Android Maps Compose composables for the Maps SDK for Android
+    implementation ("com.google.maps.android:maps-compose:4.3.0")
+
+    //WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
 
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-analytics")
@@ -74,6 +90,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.44")
     implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 //    implementation("com.google.android.gms:play-services-auth:20.7.0")
     kapt ("com.google.dagger:hilt-compiler:2.48.1")
     kapt ("androidx.hilt:hilt-compiler:1.0.0")

@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
 import com.example.savvyshopperonlineapp.Category
 import com.example.savvyshopperonlineapp.FAVORITE_SHOPS_LIST_SCREEN
 import com.example.savvyshopperonlineapp.ITEM_DEFAULT_ID
@@ -26,10 +25,7 @@ import com.example.savvyshopperonlineapp.map.MapState
 import com.example.savvyshopperonlineapp.view.SavvyShopperAppViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -66,17 +62,11 @@ class HomeViewModel @Inject constructor(
     fun getDeviceLocation(
         fusedLocationProviderClient: FusedLocationProviderClient
     ) {
-        println("sledzenie w home włączone")
         locationService.getLastKnownLocation { location ->
-            println("uzyskana lokalizacja to $location")
             location?.let {
                 locationState.value = locationState.value.copy(lastKnownLocation = it)
             }
         }
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-//         */
     }
 
     private fun getItems(){

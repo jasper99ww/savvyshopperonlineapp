@@ -62,7 +62,6 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 
 fun NavGraphBuilder.itemsGraph(appState: SavvyShopperAppState) {
 
-
     composable(FAVORITE_SHOPS_LIST_SCREEN) {
         FavoriteShopsListScreen(
             navigateToDetailScreen = { shopSpotId ->
@@ -77,7 +76,6 @@ fun NavGraphBuilder.itemsGraph(appState: SavvyShopperAppState) {
         arguments = listOf(navArgument("shopId") { type = NavType.IntType })
     ) { backStackEntry ->
         val ss = backStackEntry.arguments?.getInt("shopId")
-        println("podczas przekazywania shoPid to $ss")
         val shopId = backStackEntry.arguments?.getInt("shopId") ?: return@composable
         FavoriteShopDetailScreen(
             viewModel = hiltViewModel(),
@@ -85,11 +83,6 @@ fun NavGraphBuilder.itemsGraph(appState: SavvyShopperAppState) {
             popUpScreen = { appState.popUp() }
         )
     }
-
-
-
-
-
 
     composable(MAP_SCREEN) {
        MapScreen(

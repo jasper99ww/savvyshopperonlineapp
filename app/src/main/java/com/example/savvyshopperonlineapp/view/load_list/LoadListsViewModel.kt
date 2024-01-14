@@ -1,6 +1,5 @@
 package com.example.savvyshopperonlineapp.view.load_list
 
-import androidx.lifecycle.ViewModel
 import com.example.savvyshopperonlineapp.data.SharedList
 import com.example.savvyshopperonlineapp.data.StorageService
 import com.example.savvyshopperonlineapp.view.SavvyShopperAppViewModel

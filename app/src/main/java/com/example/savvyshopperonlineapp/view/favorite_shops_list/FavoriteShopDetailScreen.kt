@@ -44,7 +44,6 @@ fun FavoriteShopDetailScreen(
     shopId: Int,
     popUpScreen: () -> Unit,
 ) {
-
     val context = LocalContext.current
 
     LaunchedEffect(shopId) {
@@ -53,20 +52,15 @@ fun FavoriteShopDetailScreen(
 
     val shop by viewModel.shopSpot.collectAsState()
 
-    // Zmienne do przechowywania wartości z shopSpot
     val name = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
     val radius = remember { mutableStateOf("") }
 
-    // Aktualizacja zmiennych gdy shopSpot się zmienia
     LaunchedEffect(shop) {
         name.value = shop?.name ?: ""
         description.value = shop?.description ?: ""
         radius.value = shop?.radius?.toString() ?: ""
     }
-
-//    println("shopp selected is $shop")
-    println("name iss $name, decsription is $description, radius is $radius")
 
     Scaffold(
         topBar = {
@@ -108,7 +102,7 @@ fun FavoriteShopDetailScreen(
             OutlinedTextField(
                 value = radius.value,
                 onValueChange = { radius.value = it },
-                label = { Text("Radius") },
+                label = { Text("Radius (meteres)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -122,12 +116,9 @@ fun FavoriteShopDetailScreen(
             Button(
                 onClick = {
                     if (shop != null) {
-                        // Aktualizacja istniejącego sklepu
                         val updatedShop = ShopSpot(shop!!.lat, shop!!.lng, name.value, description.value, radius.value, "ALL -10%", shop!!.id)
                         viewModel.updateFavoriteShop(updatedShop)
                     } else {
-                        // Dodanie nowego sklepu
-                        println("dodajemy favorite shop")
                         viewModel.addFavoriteShop(name.value, description.value, radius.value, context)
                     }
                     popUpScreen() // Return to previous screen
@@ -135,7 +126,7 @@ fun FavoriteShopDetailScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.large
             ) {
-                Text("Add Shop")
+                Text(if (shop == null) "Add Shop" else "Update Shop")
             }
         }
     }

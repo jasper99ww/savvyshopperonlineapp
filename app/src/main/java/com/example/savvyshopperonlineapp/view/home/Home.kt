@@ -3,7 +3,6 @@ package com.example.savvyshopperonlineapp.view.home
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
@@ -71,21 +70,16 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-
 import com.example.savvyshopperonlineapp.Category
-import com.example.savvyshopperonlineapp.view.options.OptionsActivity
 import com.example.savvyshopperonlineapp.ProductAdditionReceiver
-import com.example.savvyshopperonlineapp.R
 import com.example.savvyshopperonlineapp.Utils
 import com.example.savvyshopperonlineapp.data.Item
-import com.example.savvyshopperonlineapp.data.ItemsWithList
 import com.example.savvyshopperonlineapp.database.room.DataStoreManager
 import com.example.savvyshopperonlineapp.map.RequestLocationPermissions
 import com.example.savvyshopperonlineapp.ui.theme.Shapes
 import com.google.android.gms.location.LocationServices
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     restartApp: (String) -> Unit,
@@ -96,36 +90,33 @@ fun HomeScreen(
 
     val context = LocalContext.current
     val dataStoreManager: DataStoreManager = remember { DataStoreManager.getInstance(context) }
-
     val showPermissionDialog = remember { mutableStateOf(false) }
+    val locationPermissionProcessCompleted = remember { mutableStateOf(false) }
 
+    // Handling location permissions
     RequestLocationPermissions(
         onPermissionsGranted = {
-            println("PERMISSON GRANTED")
             viewModel.getDeviceLocation(LocationServices.getFusedLocationProviderClient(context))
+        },
+        onPermissionsDenied = {
+            // Handle the denial of location permissions if needed
+        },
+        onLocationPermissionProcessCompleted = {
+            locationPermissionProcessCompleted.value = true
         },
         showPermissionDialog = showPermissionDialog
     )
 
-    // Launcher dla uprawnień do powiadomień
+    // Handling notification permissions
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // Uprawnienie do powiadomień przyznane
-        } else {
-            // Uprawnienie do powiadomień odmówione
-        }
-    }
+    ){}
 
-    LaunchedEffect(Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(
-                context,
-                POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Jeśli system to Android 13 lub nowszy i uprawnienie do powiadomień nie jest przyznane
-            notificationPermissionLauncher.launch(POST_NOTIFICATIONS)
+    LaunchedEffect(locationPermissionProcessCompleted.value) {
+        if (locationPermissionProcessCompleted.value && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                notificationPermissionLauncher.launch(POST_NOTIFICATIONS)
+            }
         }
     }
 
@@ -254,7 +245,6 @@ fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryItem(
     @DrawableRes iconRes: Int,
@@ -394,5 +384,3 @@ fun ShoppingItems(
         }
     }
 }
-
-
